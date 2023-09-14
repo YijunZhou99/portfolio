@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/portfolio/static/css/main.90c56fdb.css",
+    "main.js": "/portfolio/static/js/main.1ce58728.js",
+    "static/js/496.eefed8e2.chunk.js": "/portfolio/static/js/496.eefed8e2.chunk.js",
+    "static/media/profile_trans.png": "/portfolio/static/media/profile_trans.683f003ded705672ff3f.png",
+    "static/media/about2.JPG": "/portfolio/static/media/about2.012c9da5e60240865839.JPG",
+    "static/media/logo.png": "/portfolio/static/media/logo.67d997e8cef0fc1ccc91.png",
+    "static/media/SWE resume - Yijun Zhou - Rice University.pdf": "/portfolio/static/media/SWE resume - Yijun Zhou - Rice University.0554bcac88fc980a9afe.pdf",
+    "static/media/DS resume - Yijun Zhou - Rice University.pdf": "/portfolio/static/media/DS resume - Yijun Zhou - Rice University.81833ec0945d2145d9a9.pdf",
+    "index.html": "/portfolio/index.html",
+    "main.90c56fdb.css.map": "/portfolio/static/css/main.90c56fdb.css.map",
+    "main.1ce58728.js.map": "/portfolio/static/js/main.1ce58728.js.map",
+    "496.eefed8e2.chunk.js.map": "/portfolio/static/js/496.eefed8e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.90c56fdb.css",
+    "static/js/main.1ce58728.js"
+  ]
+}
