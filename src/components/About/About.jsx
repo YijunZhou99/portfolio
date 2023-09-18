@@ -17,7 +17,7 @@ function About() {
 
           <div class="about__data">
             <p class="about__description" i18n="about__description">
-              I am currently looking for <spam style={{color: "#f9ab00"}}> full-time</spam> opportunities in data science and software engineering.
+              I am currently looking for <spam style={{color: "#f9ab00"}}> full-time</spam> opportunities in data science/ data analysis and software engineering.
               I will graduate in <spam style={{color:  "#f9ab00"}}>December 2023</spam> with a Master of Data Science degree from Rice University and I am open to relocation and remote work.
               <br />
               <br />
