@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
 
-export default defineConfig(() => {
-  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+export default defineConfig(({ mode }) => {
+  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true' || process.env.NODE_ENV === 'production';
 
   return {
     base: isGitHubPages ? '/portfolio/' : '/', 
