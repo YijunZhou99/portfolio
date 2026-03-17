@@ -4,18 +4,20 @@ import { ExternalLink, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Project } from '../types';
 import { SectionHeader } from './SectionHeader';
 
-const ProjectCard = ({ project, index }: { project: Project; index: number }) => (
+const ProjectCard = React.memo(({ project, index }: { project: Project; index: number }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
+    initial={{ opacity: 0, y: 15 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1 }}
+    viewport={{ once: true, margin: "-20px" }}
+    transition={{ delay: Math.min(index * 0.1, 0.4) }}
     className="group relative bg-white rounded-[2rem] overflow-hidden soft-shadow card-hover border border-black/5 h-full flex flex-col"
+    style={{ willChange: 'transform, opacity' }}
   >
     <div className="aspect-[16/10] overflow-hidden bg-gray-100">
       <img 
         src={project.image || `https://picsum.photos/seed/${project.title}/800/500`} 
         alt={project.title} 
+        loading="lazy"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         referrerPolicy="no-referrer"
       />
@@ -40,7 +42,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       )}
     </div>
   </motion.div>
-);
+));
 
 const ComingSoonCard = ({ index }: { index: number }) => (
   <motion.div

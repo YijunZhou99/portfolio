@@ -1,217 +1,186 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown } from 'lucide-react';
-import { Experience, Education } from '../types';
+import React, { useRef } from 'react';
+import { motion } from 'motion/react';
+import { ExternalLink, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Project } from '../types';
 import { SectionHeader } from './SectionHeader';
 
-// Simple hook to detect mobile
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  return isMobile;
-};
-
-const ExperienceItemMobile = React.memo(({ exp, index }: { exp: Experience; index: number }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay: Math.min(index * 0.05, 0.3) }}
-      onClick={() => setIsOpen(!isOpen)}
-      className="relative pl-8 pb-10 border-l border-brand-purple/20 group cursor-pointer"
-      style={{ willChange: 'transform, opacity' }}
-    >
-      <div className="absolute left-[-5px] top-0 w-[9px] h-[9px] rounded-full bg-brand-pink" />
-      <div className="flex justify-between items-start gap-4">
-        <div>
-          <span className="text-xs font-mono text-black/40 mb-1 block">{exp.period}</span>
-          <h4 className="text-lg font-serif mb-1">{exp.role}</h4>
-          <p className="text-sm font-medium text-black/60">{exp.company}</p>
-        </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-brand-purple/40"
-        >
-          <ChevronDown size={20} />
-        </motion.div>
-      </div>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            <p className="text-black/50 text-sm leading-relaxed mt-3">
-              {exp.description}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-});
-
-const ExperienceItemDesktop = React.memo(({ exp, index }: { exp: Experience; index: number }) => (
+const ProjectCard = React.memo(({ project, index }: { project: Project; index: number }) => (
   <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    whileHover="hover"
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1 }}
-    className="relative pl-8 pb-12 border-l border-brand-purple/20 group cursor-default"
+    initial={{ opacity: 0, y: 15 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-20px" }}
+    transition={{ delay: Math.min(index * 0.1, 0.4) }}
+    className="group relative bg-white rounded-[2rem] overflow-hidden soft-shadow card-hover border border-black/5 h-full flex flex-col"
+    style={{ willChange: 'transform, opacity' }}
   >
-    <div className="absolute left-[-5px] top-0 w-[9px] h-[9px] rounded-full bg-brand-pink transition-transform duration-300 group-hover:scale-150" />
-    <span className="text-xs font-mono text-black/40 mb-1 block">{exp.period}</span>
-    <h4 className="text-xl font-serif mb-1 group-hover:text-brand-purple transition-colors">{exp.role}</h4>
-    <p className="text-sm font-medium text-black/60">{exp.company}</p>
-    <motion.div
-      initial={{ height: 0, opacity: 0 }}
-      variants={{ hover: { height: 'auto', opacity: 1, marginTop: 12 } }}
-      transition={{ duration: 0.3 }}
-      className="overflow-hidden"
-    >
-      <p className="text-black/50 text-sm leading-relaxed max-w-xl">
-        {exp.description}
+    <div className="aspect-[16/10] overflow-hidden bg-gray-100">
+      <img 
+        src={project.image || `https://picsum.photos/seed/${project.title}/800/500`} 
+        alt={project.title} 
+        loading="lazy"
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        referrerPolicy="no-referrer"
+      />
+    </div>
+    <div className="p-6 md:p-8 flex-grow flex flex-col">
+      <div className="flex gap-2 mb-4">
+        {project.tags.map(tag => (
+          <span key={tag} className="text-[10px] uppercase tracking-wider font-semibold text-brand-purple/60 px-2 py-1 bg-brand-purple/5 rounded-md">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h3 className="text-xl md:text-2xl font-serif mb-3">{project.title}</h3>
+      <p className="text-black/60 text-sm leading-relaxed mb-6 flex-grow">
+        {project.description || "A deep dive into building intelligent systems and data-driven solutions."}
       </p>
-    </motion.div>
+      {project.link && (
+        <a href={project.link} className="inline-flex items-center gap-2 text-sm font-medium group/link text-brand-purple mt-auto">
+          Explore Case Study 
+          <ExternalLink size={14} className="transition-transform group-hover/link:translate-x-1" />
+        </a>
+      )}
+    </div>
   </motion.div>
 ));
 
-const EducationItemMobile = React.memo(({ edu, index }: { edu: Education; index: number }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay: Math.min(index * 0.05, 0.3) }}
-      onClick={() => setIsOpen(!isOpen)}
-      className="relative pl-8 pb-10 border-l border-brand-purple/20 group cursor-pointer"
-      style={{ willChange: 'transform, opacity' }}
-    >
-      <div className="absolute left-[-5px] top-0 w-[9px] h-[9px] rounded-full bg-brand-purple" />
-      <div className="flex justify-between items-start gap-4">
-        <div>
-          <span className="text-xs font-mono text-black/40 mb-1 block">{edu.period}</span>
-          <h4 className="text-lg font-serif mb-1">{edu.degree}</h4>
-          <p className="text-sm font-medium text-black/60">{edu.school}</p>
-        </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-brand-purple/40"
-        >
-          <ChevronDown size={20} />
-        </motion.div>
-      </div>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            {edu.description && (
-              <p className="text-black/50 text-sm leading-relaxed mt-3">
-                {edu.description}
-              </p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-});
-
-const EducationItemDesktop = React.memo(({ edu, index }: { edu: Education; index: number }) => (
+const ComingSoonCard = ({ index }: { index: number }) => (
   <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    whileHover="hover"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.1 }}
-    className="relative pl-8 pb-12 border-l border-brand-purple/20 group cursor-default"
+    className="group relative bg-brand-purple/5 rounded-[2rem] overflow-hidden border-2 border-dashed border-brand-purple/20 h-full flex flex-col items-center justify-center p-8 text-center min-h-[400px]"
   >
-    <div className="absolute left-[-5px] top-0 w-[9px] h-[9px] rounded-full bg-brand-purple transition-transform duration-300 group-hover:scale-150" />
-    <span className="text-xs font-mono text-black/40 mb-1 block">{edu.period}</span>
-    <h4 className="text-xl font-serif mb-1 group-hover:text-brand-purple transition-colors">{edu.degree}</h4>
-    <p className="text-sm font-medium text-black/60">{edu.school}</p>
-    <motion.div
-      initial={{ height: 0, opacity: 0 }}
-      variants={{ hover: { height: 'auto', opacity: 1, marginTop: 12 } }}
-      transition={{ duration: 0.3 }}
-      className="overflow-hidden"
-    >
-      {edu.description && (
-        <p className="text-black/50 text-sm leading-relaxed max-w-xl">
-          {edu.description}
-        </p>
-      )}
-    </motion.div>
+    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 soft-shadow group-hover:scale-110 transition-transform duration-500">
+      <Sparkles className="text-brand-purple animate-pulse" size={24} />
+    </div>
+    <h3 className="text-xl font-serif mb-3">More in the works</h3>
+    <p className="text-black/40 text-sm italic leading-relaxed">
+      I'm currently developing new AI solutions and data stories. Check back soon for more case studies!
+    </p>
   </motion.div>
-));
+);
 
-export const ExperienceSection = ({ experiences, education }: { experiences: Experience[]; education: Education[] }) => {
-  const isMobile = useIsMobile();
+interface ProjectsProps {
+  projects?: Project[];
+}
+
+export const Projects = ({ projects = [] }: ProjectsProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' 
+        ? scrollLeft - clientWidth 
+        : scrollLeft + clientWidth;
+      
+      scrollRef.current.scrollTo({
+        left: scrollTo,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  if (projects.length === 0) {
+    return (
+      <section id="projects" className="min-h-screen flex items-center py-20 px-6">
+        <div className="max-w-6xl mx-auto text-center w-full">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <SectionHeader title="Selected Works" className="text-center mx-auto" />
+            <div className="p-10 md:p-16 rounded-[2.5rem] md:rounded-[3rem] border-2 border-dashed border-black/10">
+              <Sparkles className="mx-auto text-brand-purple mb-4" size={32} />
+              <p className="text-black/40 italic text-sm md:text-base">Projects are currently in development. Check back soon!</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section id="experience" className="min-h-screen flex items-center py-20 px-6 bg-white/50 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 w-full">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+    <section id="projects" className="min-h-screen flex items-center py-20 px-6 overflow-hidden">
+      <div className="max-w-6xl mx-auto w-full">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6"
         >
-          <SectionHeader title="The Journey" subtitle="My career has been a continuous evolution from data analysis to building intelligent systems." />
-          <div className="p-6 md:p-8 rounded-[2rem] bg-brand-purple/5 border border-brand-purple/10">
-            <h4 className="font-serif text-brand-purple mb-2">Current Focus</h4>
-            <p className="text-sm text-brand-purple/70 leading-relaxed">
-              I am currently deep-diving into Agentic Workflows and efficient fine-tuning techniques for small language models.
-            </p>
+          <SectionHeader 
+            title="Selected Works" 
+            subtitle="A collection of projects where I've applied AI and Data Science to solve tangible problems."
+            className="mb-0"
+          />
+          <div className="hidden md:flex gap-4 pb-4 items-center">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-10 h-10 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple hover:bg-brand-purple/20 transition-colors"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-10 h-10 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple hover:bg-brand-purple/20 transition-colors"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={20} />
+            </button>
+            <div className="w-8 h-[1px] bg-black/20 ml-2" />
+            <span className="text-xs font-mono text-black/30">
+              Explore
+            </span>
           </div>
         </motion.div>
-        <div className="pt-8 md:pt-0">
-          <div className="mb-12">
-            <h3 className="text-xs uppercase tracking-widest font-bold text-brand-purple mb-8">Professional Experience</h3>
-            {experiences.map((exp, i) => (
-              <React.Fragment key={exp.company + exp.role}>
-                {isMobile ? (
-                  <ExperienceItemMobile exp={exp} index={i} />
-                ) : (
-                  <ExperienceItemDesktop exp={exp} index={i} />
-                )}
-              </React.Fragment>
+        
+        <div className="relative group/carousel">
+          {/* Horizontal Scroll Container */}
+          <div 
+            ref={scrollRef}
+            className="flex gap-6 md:gap-8 overflow-x-auto pb-12 cursor-grab active:cursor-grabbing snap-x snap-mandatory no-scrollbar scroll-smooth"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {projects.map((p, i) => (
+              <div 
+                key={p.title + i} 
+                className="min-w-[85%] sm:min-w-[45%] lg:min-w-[calc(33.333%-1.5rem)] snap-start"
+              >
+                <ProjectCard project={p} index={i} />
+              </div>
             ))}
+            
+            {/* Always show Coming Soon card at the end */}
+            <div className="min-w-[85%] sm:min-w-[45%] lg:min-w-[calc(33.333%-1.5rem)] snap-start">
+              <ComingSoonCard index={projects.length} />
+            </div>
+          </div>
+
+          {/* Mobile Arrows (Visible on touch devices or small screens) */}
+          <div className="flex md:hidden justify-center gap-4 mt-4">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-12 h-12 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple active:bg-brand-purple/20 transition-colors"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-12 h-12 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple active:bg-brand-purple/20 transition-colors"
+            >
+              <ChevronRight size={24} />
+            </button>
           </div>
           
-          <div>
-            <h3 className="text-xs uppercase tracking-widest font-bold text-brand-purple mb-8">Education</h3>
-            {education.map((edu, i) => (
-              <React.Fragment key={edu.school + edu.degree}>
-                {isMobile ? (
-                  <EducationItemMobile edu={edu} index={i} />
-                ) : (
-                  <EducationItemDesktop edu={edu} index={i} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          {/* Subtle gradient indicators for scroll */}
+          <div className="absolute top-0 right-0 h-full w-20 bg-gradient-to-l from-white/80 to-transparent pointer-events-none hidden md:block" />
         </div>
       </div>
     </section>
