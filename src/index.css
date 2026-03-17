@@ -10,10 +10,19 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[id] {
+  scroll-margin-top: 100px;
 }
 
 body {
   @apply bg-[#FDFCFB] text-[#1A1A1A] antialiased selection:bg-purple-100 selection:text-purple-900;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .glass {
