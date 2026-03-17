@@ -8,6 +8,26 @@ export const Navbar = () => {
 
   const navItems = ['About', 'Skills', 'Experience', 'Projects', 'Contact'];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+    
+    // Use a small timeout to allow the menu animation to start and ensure the scroll isn't interrupted
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const navbarHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 10);
+  };
+
   return (
     <nav className="fixed top-0 w-full z-50 glass px-6 py-4">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
