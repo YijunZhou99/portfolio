@@ -24,17 +24,18 @@ export const Contact = () => (
           I’m always open to connecting with fellow builders and thinkers to discuss the future of AI, and its impact on our lives. Let’s bridge the gap between AI research and production.
         </p>
       <div className="flex flex-col items-center gap-10 relative z-10">
-        <div className="group relative">
+        <div className="group relative w-fit"> 
           <a 
             href="mailto:yijunzhou.work@gmail.com" 
-            className="flex items-center gap-3 text-2xl md:text-2xl font-medium text-brand-purple/80 hover:text-brand-pink transition-all duration-300 tracking-tight"
+            className="flex items-center gap-2 md:gap-3 text-lg md:text-2xl font-medium text-brand-purple/80 hover:text-brand-pink transition-all duration-300 tracking-tight"
           >
             <Mail 
-              size={24} 
-              className="text-white/40 group-hover:text-brand-pink group-hover:translate-x-1 transition-all duration-300" 
+              size={20} 
+              className="text-white/40 group-hover:text-brand-pink group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" 
             />
-            <span>yijunzhou.work@gmail.com</span>
-            <span className="absolute -bottom-2 left-0 w-0 h-px bg-brand-pink transition-all duration-300 group-hover:w-full"></span>
+            <span className="break-all">yijunzhou.work@gmail.com</span>
+            
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-brand-pink transition-all duration-300 group-hover:w-full group-active:w-full"></span>
           </a>
         </div>
 
