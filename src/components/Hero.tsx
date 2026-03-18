@@ -40,10 +40,10 @@ export const Hero = () => {
           </motion.p>
           <motion.div variants={item} className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6">
             <a 
-              href="#projects" 
+              href="#skills" 
               className="w-full sm:w-auto px-8 py-3 bg-brand-purple text-white rounded-full font-medium hover:bg-brand-purple/90 transition-all duration-300 soft-shadow text-center"
             >
-              View Projects
+              View More
             </a>
             <div className="flex items-center gap-6">
               <a href="https://www.linkedin.com/in/yijunzzz/" className="text-black/40 hover:text-brand-purple transition-colors"><Linkedin size={22} /></a>
