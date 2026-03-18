@@ -51,7 +51,7 @@ export default function App() {
   const experiences: Experience[] = [
     {
       company: "Paycom Software, Inc.",
-      role: "AI Engineer",
+      role: "Data Scientist - AI Engineering",
       period: "Feb. 2024 - Present",
       description: "Architecting enterprise-grade generative AI solutions by implementing robust RAG pipelines and orchestrating multi-agent workflows. Focused on domain-specific automation and ensuring scalable, reliable AI integration into HCM software."
     },
